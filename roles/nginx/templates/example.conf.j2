@@ -1,0 +1,45 @@
+upstream app_upstream {
+    # server 127.0.0.1:5022;
+    server unix:/var/www/app/tmp/sockets/app.socket;
+}
+
+server {
+    # Force non-www version of the site
+    listen       {{ nginx.port }};
+    server_name  www.example.com;
+    return       301 http://example.com$request_uri;
+}
+
+server {
+  listen {{ nginx.port }};
+  server_name example.com;
+  server_tokens off;
+  root /var/www/my_app;
+
+  access_log  /var/www/my_app/nginx.access.log;
+  error_log   /var/www/my_app/nginx.error.log;
+
+  include global/static-asset-caching.conf;
+
+  error_page 404 /404/;
+  error_page 500 /500/;
+
+  location / {
+    # serve static files from defined root folder;.
+    try_files $uri $uri/index.html $uri.html @application_server;
+  }
+
+  # if a file, which is not found in the root folder is requested,
+  # then the proxy pass the request to the upsteam
+  location @application_server {
+    proxy_read_timeout 300;
+    proxy_connect_timeout 300;
+    proxy_redirect     off;
+
+    proxy_set_header   X-Forwarded-Proto $scheme;
+    proxy_set_header   Host              $http_host;
+    proxy_set_header   X-Real-IP         $remote_addr;
+
+    proxy_pass http://app_upstream;
+  }
+}

@@ -1,0 +1,18 @@
+server {
+    # Force non-www version of the site
+    listen       {{ nginx.port }};
+    server_name  www.example.com;
+    return       301 http://example.com$request_uri;
+}
+
+server {
+  listen {{ nginx.port }};
+  server_name example.com;
+  server_tokens off;
+  root /var/www/my_app;
+
+  access_log  /var/www/my_app/nginx.access.log;
+  error_log   /var/www/my_app/nginx.error.log;
+
+  passenger_enabled on;
+}

@@ -1,0 +1,2 @@
+- include: locale.yml tags=locale
+- include: devtools.yml tags=devtools

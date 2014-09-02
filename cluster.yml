@@ -1,0 +1,32 @@
+---
+- hosts: all
+  sudo: yes
+  vars_files:
+    - vars/common.yml
+  roles:
+    - common
+
+- hosts: loadbalancers
+  sudo: yes
+  roles:
+    - varnish
+
+- hosts: appservers
+  sudo: yes
+  roles:
+    - ruby
+    - rails
+    - nginx-passenger
+
+- hosts: dbservers
+  sudo: yes
+  vars_files:
+    - vars/common.yml
+  roles:
+    - ruby
+    - postgres
+
+  handlers:
+    - name: postgresql restart
+      service: name=postgresql state=restarted
+      sudo: true

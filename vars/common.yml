@@ -1,0 +1,6 @@
+---
+db:
+  internal_ip: 10.129.220.41
+
+box:
+  user: phawk

@@ -1,0 +1,12 @@
+- name: Install HAProxy
+  apt: pkg=haproxy update_cache=yes
+
+- name: Enable haproxy init.d
+  lineinfile: dest=/etc/default/haproxy regexp=^ENABLED= line=ENABLED=1
+  notify:
+  - haproxy start
+
+- name: write the haproxy config files
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
+  notify:
+  - haproxy restart

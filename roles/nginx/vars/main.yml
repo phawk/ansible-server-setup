@@ -1,0 +1,9 @@
+---
+# vars file for nginx role
+nginx:
+  user: www-data
+  port: 80
+  # number of cores on machine
+  workers: 1
+  # value of ulimit -n
+  worker_connections: 1024

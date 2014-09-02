@@ -1,0 +1,8 @@
+[loadbalancers]
+balancer.example.com ansible_connection=ssh ansible_ssh_user=demo
+
+[appservers]
+web1.example.com ansible_connection=ssh ansible_ssh_user=demo
+
+[dbservers]
+db1.example.com ansible_connection=ssh ansible_ssh_user=demo
