@@ -1,10 +1,10 @@
 [loadbalancers]
-0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=loadbalancer
+0.0.0.0 ansible_connection=ssh server_name=loadbalancer
 
 [appservers]
-0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=app1
-0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=app2
+0.0.0.0 ansible_connection=ssh server_name=app1
+0.0.0.0 ansible_connection=ssh  server_name=app2
 
 
 [dbservers]
-0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=db
+0.0.0.0 ansible_connection=ssh  server_name=db
