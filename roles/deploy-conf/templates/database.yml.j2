@@ -4,4 +4,4 @@ production:
   database: {{app_name}}
   user: {{dbuser}}
   password: "{{dbpass}}"
-  host: {{db.internal_ip}}
+  host: {{groups['dbservers'][0]}}
