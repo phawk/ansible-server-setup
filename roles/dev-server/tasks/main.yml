@@ -1,0 +1,3 @@
+---
+   - name: "Setup public key of deploy user to git server"
+     authorized_key: user=git key="{{ lookup('file', 'ssh-keys/id_rsa.pub') }}"

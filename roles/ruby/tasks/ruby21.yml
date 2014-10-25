@@ -4,7 +4,7 @@
   apt_repository: repo='ppa:brightbox/ruby-ng'
 
 - name: upgrade
-  action: apt update_cache=yes upgrade=yes
+  action: apt update_cache=yes
 
 - name: install ruby dependencies
   action: apt pkg={{item}} state=installed
@@ -28,8 +28,21 @@
     - libxslt1-dev
     - curl
 
+- name: Install app dependencies 
+  action: apt pkg={{item}} state=installed
+  with_items:
+    - libpq-dev
+    - nodejs
+    - imagemagick
+
 - name: Install Ruby 2.1
   apt: pkg=ruby2.1 state=latest update_cache=true
 
 - name: Install Ruby 2.1 dev
   apt: pkg=ruby2.1-dev state=latest update_cache=true
+
+- name: Install Bundler
+  command: gem install bundler
+
+- name: Install Postgre Gem
+  command: gem install pg

@@ -1,3 +1,5 @@
+env PATH;
+
 user {{ nginx.user }};
 worker_processes {{ nginx.workers }};
 pid /var/run/nginx.pid;
@@ -10,7 +12,7 @@ events {
 http {
 
     passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
-    passenger_ruby /usr/local/bin/ruby;
+    passenger_ruby /usr/bin/ruby;
 
     ##
     # Basic Settings

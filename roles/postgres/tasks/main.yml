@@ -19,9 +19,19 @@
 - name: Copy valid pg_hba.conf
   template: src=pg_hba.conf.j2 dest=/etc/postgresql/9.3/main/pg_hba.conf
   notify:
-  - postgresql restart
+  - restart postgresql
 
 - name: Copy valid postgresql.conf
   template: src=postgresql.conf.j2 dest=/etc/postgresql/9.3/main/postgresql.conf
   notify:
-  - postgresql restart
+  - restart postgresql
+
+- name: ensure database is created
+  postgresql_db: name={{app_name}}
+  sudo: yes
+  sudo_user: postgres
+
+- name: ensure user has access to database
+  postgresql_user: db={{app_name}} name={{dbuser}} password={{dbpass}} priv=ALL
+  sudo: yes
+  sudo_user: postgres

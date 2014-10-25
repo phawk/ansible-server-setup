@@ -1,6 +1,7 @@
 ---
-db:
-  internal_ip: 10.129.220.41
-
-box:
-  user: phawk
+deploy_user: deploy
+webserver_name: example.com
+deploy_directory: /data/demoapp
+app_name: demoapp
+dbuser: demo
+dbpass: "nxkdje3"

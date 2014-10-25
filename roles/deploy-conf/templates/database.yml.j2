@@ -1,0 +1,7 @@
+production:
+  adapter: postgresql
+  database: app_{{app_name}}
+  database: {{app_name}}
+  user: {{dbuser}}
+  password: "{{dbpass}}"
+  host: {{groups['dbservers'][0]}}

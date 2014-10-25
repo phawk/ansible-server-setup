@@ -1,1 +1,3 @@
 hosts
+ssh-keys/id_rsa
+ssh-keys/id_rsa.pub

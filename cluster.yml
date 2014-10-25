@@ -9,24 +9,22 @@
 - hosts: loadbalancers
   sudo: yes
   roles:
-    - varnish
+    - haproxy
 
 - hosts: appservers
   sudo: yes
+  vars_files:
+    - vars/common.yml
   roles:
     - ruby
     - rails
     - nginx-passenger
+    - deploy-conf
 
 - hosts: dbservers
   sudo: yes
   vars_files:
     - vars/common.yml
   roles:
-    - ruby
+    #- ruby
     - postgres
-
-  handlers:
-    - name: postgresql restart
-      service: name=postgresql state=restarted
-      sudo: true

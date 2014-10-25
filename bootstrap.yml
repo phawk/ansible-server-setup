@@ -1,0 +1,44 @@
+---
+- hosts: appservers:loadbalancers:dbservers
+  sudo: yes
+  vars_files:
+    - vars/bootstrap.yml
+  tasks: 
+    - name: Copy sudoers file for safety
+      command: cp -f /etc/sudoers /etc/sudoers.tmp
+
+    - name: Create sudoers file backup
+      command: cp -f /etc/sudoers /etc/sudoers.bak
+
+    - name: Create {{admin_group}} group
+      group: name={{admin_group}} system=yes state=present
+
+    - name: make sure we can sudo as {{admin_group}} group
+      lineinfile: "dest=/etc/sudoers.tmp state=present regexp='^%{{admin_group}}' line='%{{admin_group}} ALL=(ALL) NOPASSWD: ALL'"
+
+    - name: also make sure ssh-agent works via sudo
+      lineinfile: dest=/etc/sudoers.tmp state=present regexp='^Defaults env_keep\+\=SSH_AUTH_SOCK' line='Defaults env_keep+=SSH_AUTH_SOCK'
+
+    - name: Final sudoers file check
+      shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
+
+    - name: Create sysadmin user
+      user: name={{sysadmin.username}} groups={{admin_group}} comment="Sys admin user"
+    
+    - name: Add sysadmin user public key
+      authorized_key: user={{sysadmin.username}} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: Add root user public key
+      authorized_key: user=root key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: Apt Update
+      apt: update_cache=yes
+
+    - name: Restart
+      command: shutdown -r now "Ansible updates triggered"
+      async: 0
+      poll: 0
+      ignore_errors: true
+      
+  roles:
+    - ssh

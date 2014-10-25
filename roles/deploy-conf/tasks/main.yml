@@ -1,0 +1,2 @@
+- include: deploy.yml tags=deploy
+- include: nginx.yml tags=nginx
