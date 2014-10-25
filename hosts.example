@@ -1,8 +1,10 @@
 [loadbalancers]
-balancer.example.com ansible_connection=ssh ansible_ssh_user=demo
+0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=loadbalancer
 
 [appservers]
-web1.example.com ansible_connection=ssh ansible_ssh_user=demo
+0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=app1
+0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=app2
+
 
 [dbservers]
-db1.example.com ansible_connection=ssh ansible_ssh_user=demo
+0.0.0.0 ansible_connection=ssh ansible_ssh_user=root server_name=db
