@@ -3,7 +3,7 @@
 
 [appservers]
 0.0.0.0 ansible_connection=ssh server_name=app1
-0.0.0.0 ansible_connection=ssh  server_name=app2
+0.0.0.0 ansible_connection=ssh server_name=app2
 
 
 [dbservers]
